@@ -10,7 +10,7 @@ data:
       evaluation_interval: 15s
 
     rule_files:
-      - /etc/prometheus/alerts.yml
+      - /etc/prometheus-alerts/alerts.yml
 
     alerting:
       alertmanagers:

@@ -28,8 +28,7 @@ spec:
             - name: config
               mountPath: /etc/prometheus
             - name: alerts
-              mountPath: /etc/prometheus/alerts.yml
-              subPath: alerts.yml
+              mountPath: /etc/prometheus-alerts
             - name: data
               mountPath: /prometheus
       volumes:
