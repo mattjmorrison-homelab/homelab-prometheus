@@ -27,12 +27,18 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/prometheus
+            - name: alerts
+              mountPath: /etc/prometheus/alerts.yml
+              subPath: alerts.yml
             - name: data
               mountPath: /prometheus
       volumes:
         - name: config
           configMap:
             name: prometheus-config
+        - name: alerts
+          configMap:
+            name: prometheus-alerts
   volumeClaimTemplates:
     - metadata:
         name: data
