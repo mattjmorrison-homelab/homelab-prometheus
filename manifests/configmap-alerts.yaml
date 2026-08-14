@@ -122,3 +122,11 @@ data:
               severity: warning
             annotations:
               summary: "ArgoCD app {{ $labels.name }} ({{ $labels.namespace }}) has been OutOfSync for 10m"
+
+          - alert: SlowInternetSpeed
+            expr: speedtest_download_bits_per_second < 50000000
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: "Internet download speed is {{ $value | printf \"%.1f\" }}bps, below 50Mb/s"
