@@ -31,6 +31,19 @@ spec:
               mountPath: /etc/prometheus-alerts
             - name: data
               mountPath: /prometheus
+        - name: configmap-reload
+          image: jimmidyson/configmap-reload:latest
+          args:
+            - --volume-dir=/etc/prometheus
+            - --volume-dir=/etc/prometheus-alerts
+            - --webhook-url=http://localhost:9090/-/reload
+          volumeMounts:
+            - name: config
+              mountPath: /etc/prometheus
+              readOnly: true
+            - name: alerts
+              mountPath: /etc/prometheus-alerts
+              readOnly: true
       volumes:
         - name: config
           configMap:
