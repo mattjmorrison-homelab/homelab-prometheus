@@ -1,8 +1,11 @@
 image:
   repository: prom/prometheus
-  tag: latest
+  digest: sha256:508729e0e2d18e11fd742a5a5ca70e557b940a93948c3c95fd0123a6fd538b69 # v3.13.2
 
 configmapReload:
   image:
     repository: jimmidyson/configmap-reload
-    tag: latest
+    # Docker Hub's tags are stale (last real version tag was v0.9.0, years
+    # old — active development moved to ghcr.io) so there's no matching
+    # version tag on this registry. Pinning by digest instead.
+    digest: sha256:174c00db82161fb3aa4d6cc1d963c66a5515faf95824cd37ec78d1f9330c2ce9
