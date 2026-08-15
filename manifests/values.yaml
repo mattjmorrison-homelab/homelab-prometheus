@@ -1,0 +1,8 @@
+image:
+  repository: prom/prometheus
+  tag: latest
+
+configmapReload:
+  image:
+    repository: jimmidyson/configmap-reload
+    tag: latest

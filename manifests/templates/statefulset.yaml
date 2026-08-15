@@ -17,7 +17,7 @@ spec:
       serviceAccountName: prometheus
       containers:
         - name: prometheus
-          image: prom/prometheus:latest
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           args:
             - --config.file=/etc/prometheus/prometheus.yml
             - --storage.tsdb.path=/prometheus
@@ -32,7 +32,7 @@ spec:
             - name: data
               mountPath: /prometheus
         - name: configmap-reload
-          image: jimmidyson/configmap-reload:latest
+          image: "{{ .Values.configmapReload.image.repository }}:{{ .Values.configmapReload.image.tag }}"
           args:
             - --volume-dir=/etc/prometheus
             - --volume-dir=/etc/prometheus-alerts
