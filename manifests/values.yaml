@@ -9,3 +9,8 @@ configmapReload:
     # old — active development moved to ghcr.io) so there's no matching
     # version tag on this registry. Pinning by digest instead.
     digest: sha256:174c00db82161fb3aa4d6cc1d963c66a5515faf95824cd37ec78d1f9330c2ce9
+
+verify:
+  image:
+    repository: alpine
+    digest: sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc # 3.20
