@@ -54,8 +54,8 @@ data:
       - job_name: 'pi-node-exporter'
         static_configs:
           - targets:
-              - 'pi5-8.local:9100'
-              - 'pi5-16.local:9100'
+              - 'pizero.local:9100'
+              - 'pi1.local:9100'
 
       - job_name: 'kubernetes-cadvisor'
         scheme: https
