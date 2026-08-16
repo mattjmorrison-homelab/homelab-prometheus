@@ -40,6 +40,22 @@ data:
             annotations:
               summary: "Low disk on {{ "{{" }} $labels.instance {{ "}}" }} ({{ "{{" }} $labels.mountpoint {{ "}}" }}): {{ "{{" }} $value | printf \"%.0f\" {{ "}}" }}% used"
 
+          - alert: HighTemp
+            expr: node_hwmon_temp_celsius > 80
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: "High temp on {{ "{{" }} $labels.instance {{ "}}" }}: {{ "{{" }} $value | printf \"%.0f\" {{ "}}" }}°C"
+
+          - alert: PiNodeExporterDown
+            expr: up{job="pi-node-exporter"} == 0
+            for: 2m
+            labels:
+              severity: critical
+            annotations:
+              summary: "Pi {{ "{{" }} $labels.instance {{ "}}" }} is unreachable"
+
           - alert: PodCrashLooping
             expr: rate(kube_pod_container_status_restarts_total[15m]) * 60 * 15 > 5
             for: 5m
