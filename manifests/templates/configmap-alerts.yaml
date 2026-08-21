@@ -139,6 +139,14 @@ data:
             annotations:
               summary: "ArgoCD app {{ "{{" }} $labels.name {{ "}}" }} ({{ "{{" }} $labels.namespace {{ "}}" }}) has been OutOfSync for 10m"
 
+          - alert: OpenBaoSealed
+            expr: vault_core_unsealed == 0
+            for: 1m
+            labels:
+              severity: critical
+            annotations:
+              summary: "OpenBao is sealed"
+
           - alert: SlowInternetSpeed
             expr: speedtest_download_bits_per_second < 50000000
             for: 5m

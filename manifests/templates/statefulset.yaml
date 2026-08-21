@@ -29,6 +29,9 @@ spec:
               mountPath: /etc/prometheus
             - name: alerts
               mountPath: /etc/prometheus-alerts
+            - name: woodpecker-token
+              mountPath: /etc/prometheus-secrets
+              readOnly: true
             - name: data
               mountPath: /prometheus
         - name: configmap-reload
@@ -51,6 +54,9 @@ spec:
         - name: alerts
           configMap:
             name: prometheus-alerts
+        - name: woodpecker-token
+          secret:
+            secretName: prometheus-woodpecker-token
   volumeClaimTemplates:
     - metadata:
         name: data
