@@ -57,6 +57,7 @@ spec:
         - name: woodpecker-token
           secret:
             secretName: prometheus-woodpecker-token
+            optional: true
   volumeClaimTemplates:
     - metadata:
         name: data
