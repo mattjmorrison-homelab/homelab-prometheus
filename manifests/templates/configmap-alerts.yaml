@@ -33,7 +33,7 @@ data:
               summary: "High memory on {{ "{{" }} $labels.instance {{ "}}" }}: {{ "{{" }} $value | printf \"%.0f\" {{ "}}" }}%"
 
           - alert: LowDisk
-            expr: (1 - (node_filesystem_avail_bytes{fstype!="tmpfs"} / node_filesystem_size_bytes{fstype!="tmpfs"})) * 100 > 85
+            expr: (1 - (node_filesystem_avail_bytes{fstype!="tmpfs",os!="steamos"} / node_filesystem_size_bytes{fstype!="tmpfs",os!="steamos"})) * 100 > 85
             for: 5m
             labels:
               severity: warning

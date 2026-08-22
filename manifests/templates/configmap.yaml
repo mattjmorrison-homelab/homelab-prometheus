@@ -62,6 +62,8 @@ data:
           - targets:
               - 'basementpc.local:9100'
               - 'nevespc.local:9100'
+            labels:
+              os: steamos
 
       - job_name: 'macos-node-exporter'
         static_configs:
