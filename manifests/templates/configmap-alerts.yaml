@@ -140,7 +140,7 @@ data:
               summary: "ArgoCD app {{ "{{" }} $labels.name {{ "}}" }} ({{ "{{" }} $labels.namespace {{ "}}" }}) has been OutOfSync for 10m"
 
           - alert: OpenBaoSealed
-            expr: vault_core_unsealed == 0
+            expr: vault_core_unsealed{cluster!=""} == 0
             for: 1m
             labels:
               severity: critical
