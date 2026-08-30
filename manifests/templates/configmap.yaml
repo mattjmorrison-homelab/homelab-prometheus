@@ -45,10 +45,6 @@ data:
               - 'argocd-metrics.argocd.svc:8082'
               - 'argocd-server-metrics.argocd.svc:8083'
 
-      - job_name: 'github-runner-controller'
-        static_configs:
-          - targets: ['k8s-github-runner-controller-metrics.github-runner.svc:8080']
-
       - job_name: 'speedtest-exporter'
         scrape_interval: 5m
         scrape_timeout: 60s
