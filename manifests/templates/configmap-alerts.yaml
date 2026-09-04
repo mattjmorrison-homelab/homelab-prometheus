@@ -56,6 +56,14 @@ data:
             annotations:
               summary: "Pi {{ "{{" }} $labels.instance {{ "}}" }} is unreachable"
 
+          - alert: PiUpdatesAvailable
+            expr: node_apt_upgrades_pending > 0
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: "{{ "{{" }} $labels.pi {{ "}}" }} has {{ "{{" }} $value {{ "}}" }} package update(s) available"
+
           - alert: PodCrashLooping
             expr: rate(kube_pod_container_status_restarts_total[15m]) * 60 * 15 > 5
             for: 5m
