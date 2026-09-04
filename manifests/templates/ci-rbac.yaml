@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus-ci
+  namespace: monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: prometheus-ci-writer
+  namespace: monitoring
+rules:
+  - apiGroups: ["", "apps", "batch", "external-secrets.io", "networking.k8s.io"]
+    resources: ["*"]
+    verbs: ["get", "list", "create", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: prometheus-ci-writer
+  namespace: monitoring
+subjects:
+  - kind: ServiceAccount
+    name: prometheus-ci
+    namespace: monitoring
+roleRef:
+  kind: Role
+  name: prometheus-ci-writer
+  apiGroup: rbac.authorization.k8s.io
+---
+# Narrow, separate from the writer Role above: only lets the *shared*
+# runner identity (github-runner-workload, used by every repo's CI) mint
+# a short-lived token for this one namespace's CI ServiceAccount --
+# nothing else. The runner identity itself never gains direct write
+# access; only prometheus-ci does, and only for as long as a freshly
+# minted token lasts.
+#
+# Named prometheus-ci rather than the monitoring-ci default since the
+# monitoring namespace hosts more than one repo's CI identity (e.g.
+# alertmanager-ci from k8s-alertmanager) -- see k8s-lib-ci-rbac's README.
+#
+# Hand-written to match what k8s-lib-ci-rbac's k8s-ci-rbac.rbac template
+# generates, rather than taking that chart as a dependency -- avoids
+# needing the private-registry pull credential (OpenBao role +
+# k8s-zot serviceConsumer) that k8s-garage's equivalent PR is still
+# blocked on. Safe to swap for the real dependency once that's sorted.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: prometheus-ci-token-issuer
+  namespace: monitoring
+rules:
+  - apiGroups: [""]
+    resources: ["serviceaccounts/token"]
+    verbs: ["create"]
+    resourceNames: ["prometheus-ci"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: prometheus-ci-token-issuer
+  namespace: monitoring
+  labels:
+    ci-namespace: monitoring
+subjects:
+  - kind: ServiceAccount
+    name: github-runner-workload
+    namespace: github-runner
+roleRef:
+  kind: Role
+  name: prometheus-ci-token-issuer
+  apiGroup: rbac.authorization.k8s.io
